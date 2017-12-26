@@ -21,7 +21,7 @@ class TestAccount(unittest.TestCase):
         有效用户登陆，获得token
         """
         client = KirkClient(self.username, self.password, self.mode)
-        client.get_user_token()
+        client.get_usertoken()
         self.assertIsNotNone(client.usertoken)
 
     def test_user_token_invalid(self):
@@ -31,26 +31,30 @@ class TestAccount(unittest.TestCase):
         username = 'invaliduser@wru.com'
         password = 'invalidpassword'
         client = KirkClient(username, password, self.mode)
-        client.get_user_token()
-        self.assertIsNone(client.usertoken)
+        
+        #AttributeError: 'NoneType' object has no attribute 'token'
+        self.assertRaises(AttributeError, client.get_usertoken())
 
     # ------ 获取项目token ------
 
     def test_projects_token(self):
         client = KirkClient(self.username, self.password, self.mode)
-        client.get_user_token()
+        client.get_usertoken()
 
-        project_name = client.get_users_projects()[0]['name']
+        projects = client.get_users_projects()
+        project0 = projects[0]
+
+        project_name = project0['name']
 
         client.get_project_token(project_name)
-        self.assertIsNotNone(client.projecttoken)
+        self.assertIsNotNone(client.get_projecttoken(project_name))
 
     # ------  获取用户的所有项目信息 ------ 
 
     def test_users_projects(self):
         # TODO: 准备环境清理环境
         client = KirkClient(self.username, self.password, self.mode)
-        client.get_user_token()
+        client.get_usertoken()
 
         projects = client.get_users_projects()
 
@@ -63,7 +67,7 @@ class TestAccount(unittest.TestCase):
 
     def test_regions(self):
         client = KirkClient(self.username, self.password, self.mode)
-        client.get_user_token()
+        client.get_usertoken()
 
         regions = client.get_regions()
         r0 = regions[0]
