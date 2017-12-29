@@ -65,6 +65,7 @@ class KirkClient(object):
             _user = res['user']
             self.kirk_user = KirkUser(_user['id'], _user['name'])
 
+            return self.auth_token
         elif r.status_code == 400:
             # （错误）请求中的参数存在错误
             pass
@@ -88,6 +89,7 @@ class KirkClient(object):
             self.project_tokens[project_name] =  AuthToken(_token['id'], _token['issued_at'], _token['expires_at'])
 
             _user = res['user']
+            return _token['id']
 
         elif r.status_code == 400:
             # （错误）请求中的参数存在错误
@@ -129,9 +131,29 @@ class KirkClient(object):
         else:
             pass
 
-    def post_service(self):
+    def post_app(self):
+        """创建应用
+        """
+        pass
+    
+    def list_app(self):
+        """获取应用列表
+        """
+        pass
+
+    def post_service(self, region_name, project_name, app_name, micro_service):
         """创建无状态服务
         """
+        # TODO: check project_token有效期
+        headers = {"X-Auth-Token": self.project_tokens[project_name].token}
+
+        payload = micro_service
+        print("%s/regions/%s/v1/projects/%s/apps/%s/microservices" % (self.host, region_name, project_name, app_name))
+        r = requests.post("%s/regions/%s/v1/projects/%s/apps/%s/microservices" % (self.host, region_name, project_name, app_name), headers=headers, data=json.dumps(payload))
+        if r.status_code == 200:
+            return r.json()
+        else:
+            pass
         pass
 
     def post_app(self):
