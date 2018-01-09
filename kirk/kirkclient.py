@@ -26,7 +26,7 @@ class KirkClient(object):
     def __init__(self, username, password, mode = 'pro'):
 
         if mode == 'dev':
-            self.host = KIRK_HOST_DEV 
+            self.host = KIRK_HOST_DEV
         elif mode == 'pro':
             self.host = KIRK_HOST_PRO
 
@@ -34,7 +34,7 @@ class KirkClient(object):
         self.password = password
 
         self.auth_token = None
-        self.kirk_user = None 
+        self.kirk_user = None
 
         self.project_tokens = {}
 
@@ -74,7 +74,7 @@ class KirkClient(object):
             pass
 
     def get_project_token(self, project_name):
-        """获取项目token 
+        """获取项目token
         """
 
         headers = {"X-Auth-Token": self.auth_token.token}
@@ -135,26 +135,24 @@ class KirkClient(object):
         """创建应用
         """
         pass
-    
+
     def list_app(self):
         """获取应用列表
         """
         pass
 
-    def post_service(self, region_name, project_name, app_name, micro_service):
+    def post_service(self, region_name, project_name, app_name, microservice_payload):
         """创建无状态服务
         """
         # TODO: check project_token有效期
         headers = {"X-Auth-Token": self.project_tokens[project_name].token}
 
-        payload = micro_service
-        print("%s/regions/%s/v1/projects/%s/apps/%s/microservices" % (self.host, region_name, project_name, app_name))
-        r = requests.post("%s/regions/%s/v1/projects/%s/apps/%s/microservices" % (self.host, region_name, project_name, app_name), headers=headers, data=json.dumps(payload))
+        r = requests.post("%s/regions/%s/v1/projects/%s/apps/%s/microservices" % 
+            (self.host, region_name, project_name, app_name), headers=headers, data=json.dumps(microservice_payload))
         if r.status_code == 200:
             return r.json()
         else:
             pass
-        pass
 
     def post_app(self):
         """创建应用
