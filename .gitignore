@@ -110,3 +110,4 @@ tests/config.py
 build.sh
 runtest
 examples
+pypi.sh
