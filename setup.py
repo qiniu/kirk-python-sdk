@@ -8,6 +8,7 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
+from kirk import __version__ as version
 here = path.abspath(path.dirname(__file__))
 
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
@@ -15,7 +16,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='kirk-python-sdk',  # Required
-    version='0.0.2',  # Required
+    version=version,  # Required
     description='Qiniu Kirk Python SDK',  # Required
     long_description=long_description,  # Optional
     url='https://github.com/qiniu/kirk-python-sdk',  # Optional

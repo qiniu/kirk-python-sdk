@@ -1,1 +1,1 @@
-../venv/bin/python3 litecoin.py
+../.venv/bin/python3 ss.py

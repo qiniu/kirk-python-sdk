@@ -1,6 +1,32 @@
 # -*- coding: utf-8 -*-
 
-# Account
+import collections
+try:
+  # Python 2.7+
+  basestring
+except NameError:
+  # Python 3.3+
+  basestring = str 
+
+def todict(obj):
+    """ 
+    Recursively convert a Python object graph to sequences (lists)
+    and mappings (dicts) of primitives (bool, int, float, string, ...)
+    """
+    if isinstance(obj, basestring):
+        return obj 
+    elif isinstance(obj, dict):
+        return dict((key, todict(val)) for key, val in obj.items())
+    elif isinstance(obj, collections.Iterable):
+        return [todict(val) for val in obj]
+    elif hasattr(obj, '__dict__'):
+        return todict(vars(obj))
+    elif hasattr(obj, '__slots__'):
+        return todict(dict((name, getattr(obj, name)) for name in getattr(obj, '__slots__')))
+    return obj
+
+# --------- Account Entity ---------
+
 class LoginConfig(object):
     def __init__(self, host, username, password):
         self.host = host                # API 服务器地址
@@ -24,7 +50,32 @@ class Project(object):
         self.name = name
         self.description = description
 
-# MicroService
+# --------- LB Entity ---------
+
+class TlbService(object):
+    def __init__(self, appName, serviceName):
+        self.appName = appName
+        self.serviceName = serviceName
+
+class TlbRule(object):
+    def __init__(self, lbPort, servicePort, protocol):
+        self.lbPort = lbPort
+        self.servicePort = servicePort
+        self.protocol = protocol
+
+class CreateTlbArgs(object):
+    def __init__(self, name, description, ipType, chargeMode, bandwidthLimit, policy, tlb_services, tlb_rules):
+        self.name = name
+        self.description = description
+        self.ipType = ipType
+        self.chargeMode = chargeMode
+        self.bandwidthLimit = bandwidthLimit
+        self.policy = policy
+        self.services = tlb_services
+        self.rules = tlb_rules
+
+# --------- MicroService Entity ---------
+
 class KirkApp(object):
     pass
 
@@ -38,9 +89,6 @@ class MicroService(object):
         self.type = ''
         self.microservice_ports = []
         self.containers = []
-
-    def to_payload(self):
-        pass
 
 class MicroServicePort(object):
     def __init__(self):
@@ -57,9 +105,6 @@ class Container(object):
         self.container_volume_mounts = []
         self.container_configs = []
         self.container_envs = []
-
-    def to_payload(self):
-        pass
 
 class GPUSpec(object):
     pass

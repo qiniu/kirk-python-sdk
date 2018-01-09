@@ -154,6 +154,17 @@ class KirkClient(object):
         else:
             pass
 
+    def get_services(self, region_name, project_name, app_name, service_name):
+        """获取服务信息
+        """
+        headers = {"X-Auth-Token": self.project_tokens[project_name].token}
+        r = requests.get("%s/regions/%s/v1/projects/%s/apps/%s/microservices/%s" %
+            (self.host, region_name, project_name, app_name, service_name), headers=headers)
+        if r.status_code == 200:
+            return r.json()
+        else:
+            pass
+
     def post_app(self):
         """创建应用
         """
@@ -192,6 +203,63 @@ class KirkClient(object):
 
     # --------- storage/存储接口 ---------
 
-    # --------- 配置接口/存储接口 ---------
+    # --------- configmag/配置接口 ---------
+
+    # --------- HTTP/HTTPS 负载均衡接口 ---------
+
+    def post_backendrule(self):
+        """
+        """
+        pass
+
+    def patch_backendrule(self):
+        """
+        """
+        pass
+
+    def del_backendrule(self):
+        """
+        """
+        pass
+
+    def list_backendrule(self):
+        """
+        """
+        pass
 
     # --------- ALB/应用负载均衡接口 ---------
+
+    def post_tlb(self, region_name, project_name, tlb_args):
+        """创建TLB
+        绑定IP接口
+        """
+        headers = {"X-Auth-Token": self.project_tokens[project_name].token}
+
+        r = requests.post("%s/regions/%s/v1/projects/%s/tlbs" % 
+            (self.host, region_name, project_name), headers=headers, data=json.dumps(tlb_args))
+        if r.status_code == 200:
+            return r.json()
+        else:
+            import pdb
+            pdb.set_trace()
+            print(r.text)
+
+    def put_tlb(self):
+        """
+        """
+        pass
+
+    def del_tlb(self):
+        """
+        """
+        pass
+
+    def get_tlb(self):
+        """
+        """
+        pass
+
+    def list_tlb(self):
+        """
+        """
+        pass

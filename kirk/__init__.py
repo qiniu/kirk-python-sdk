@@ -1,2 +1,3 @@
-from .kirkclient import KirkClient
+__version__ = '0.0.4'
 
+from .kirkclient import KirkClient
