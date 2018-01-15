@@ -121,7 +121,7 @@ class KirkClient(object):
     # --------- service/服务接口 ---------
 
     def list_regions_resource_specs(self, region_name):
-        """获取集群可用容器资源规格 
+        """获取集群可用容器资源规格
         """
         headers = {"X-Auth-Token": self.auth_token.token}
         print("%s/regions/%s/v1/resourcespecs" % (self.host, region_name))
@@ -147,7 +147,7 @@ class KirkClient(object):
         # TODO: check project_token有效期
         headers = {"X-Auth-Token": self.project_tokens[project_name].token}
 
-        r = requests.post("%s/regions/%s/v1/projects/%s/apps/%s/microservices" % 
+        r = requests.post("%s/regions/%s/v1/projects/%s/apps/%s/microservices" %
             (self.host, region_name, project_name, app_name), headers=headers, data=json.dumps(microservice_payload))
         if r.status_code == 200:
             return r.json()
@@ -235,14 +235,12 @@ class KirkClient(object):
         """
         headers = {"X-Auth-Token": self.project_tokens[project_name].token}
 
-        r = requests.post("%s/regions/%s/v1/projects/%s/tlbs" % 
+        r = requests.post("%s/regions/%s/v1/projects/%s/tlbs" %
             (self.host, region_name, project_name), headers=headers, data=json.dumps(tlb_args))
         if r.status_code == 200:
             return r.json()
         else:
-            import pdb
-            pdb.set_trace()
-            print(r.text)
+            pass
 
     def put_tlb(self):
         """
