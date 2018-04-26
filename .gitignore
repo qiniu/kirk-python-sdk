@@ -99,3 +99,15 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Mac
+*/.DS_Store
+.vscode/
+.venv
+
+# project
+tests/config.py
+build.sh
+runtest
+examples
+pypi.sh
